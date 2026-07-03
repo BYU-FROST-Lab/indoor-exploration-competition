@@ -1,0 +1,37 @@
+root_path: '/home/seungchan/indoor-exploration-competition'
+
+environment: '50010535_PLAN1'
+
+start_pose: [15,15]
+
+num_robots: 5
+
+max_steps: 1000
+
+lidar_range: 15
+num_laser: 2500
+
+pixel_per_meter: 10
+
+attenuation_constant: 10
+transmitted_power: 20
+path_loss_exponent: 3.5
+power_threshold: -80
+comm_range: 15
+
+other_traj_threshold: 5
+other_intent_threshold: 10
+
+save_viz: True
+viz_comm: True
+viz_gt_map: True
+viz_freq: 20
+
+viz_video: False
+
+pd_size: 200
+
+relay_trigger: 'periodic'
+relay_period: 200
+relay_transfer: True
+final_relay: True
