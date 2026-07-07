@@ -1,6 +1,7 @@
 import numpy as np
+import pyastar2d
 from base_policy import BasePolicy
-from policy_utils import get_frontiers, crowding_avoidance_penalty
+from policy_utils import get_frontiers, crowding_avoidance_penalty, inflate_map
 
 
 class NearestFrontierPolicy(BasePolicy):
@@ -18,4 +19,12 @@ class NearestFrontierPolicy(BasePolicy):
         scores = crowding_avoidance_penalty(
             frontiers, scores, obs.pose_lists_of_others, obs.intents_of_others, collect_opts
         )
-        return frontiers[np.argmax(scores)]
+
+        occ_grid_pyastar = inflate_map(obs.combined_obs_map)
+        for idx in np.argsort(-scores):
+            candidate = frontiers[idx]
+            if occ_grid_pyastar[candidate[0], candidate[1]] == np.inf:
+                continue
+            if pyastar2d.astar_path(occ_grid_pyastar, obs.pose, candidate, allow_diagonal=False) is not None:
+                return candidate
+        return None

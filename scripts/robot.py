@@ -16,7 +16,6 @@ class Robot:
         self.id = id
         self.pose = np.array(start_pose)
         self.obs_map = None
-        self.pred_map = None
         self.policy = policy
         self.user_policy = user_policy
         self.collect_opts = collect_opts
@@ -36,25 +35,6 @@ class Robot:
         self.flood_grid = None
 
         self.behavior_mode = 'explore'
-
-        self.mean_map = None
-        self.var_map = None
-
-        self.pred_inc_cells = 0
-        self.pred_efficiency = 0
-        self.pred_astar_path_to_base = None
-        self.predicted_frontier_region_centers = None
-        self.locked_predicted_frontier_center= None
-
-        self.predpath_relay_init = True
-        self.pred_front_to_base = False
-
-        self.best_path_pose_front_base = None
-        self.init_time_to_pred_front = None
-        self.estimated_time_from_pose_to_frontier = None
-
-        self.gamma_now  = 0
-        self.gamma_pred = 0
 
     def initialize_map(self, world):
         self.gt_map = world.occ_map
