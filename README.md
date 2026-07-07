@@ -31,6 +31,7 @@ Then re-run `conda env create -f environment.yml`.
 After installing `iig` environment, build from source to install `range_libc`. 
 
 ```
+conda activate iig
 cd range_libc/pywrapper
 
 # Install build dependencies (if needed)
