@@ -125,10 +125,13 @@ communication — never ground truth:
 ### Your goal doesn't have to be frontier-based
 
 Any exploration strategy is allowed (frontier-based, sampling-based,
-potential-field, learned, etc.) as long as it only uses `obs`. If your
-returned goal is unreachable or invalid, the framework falls back to the
-nearest reachable frontier automatically, so a bad decision degrades
-gracefully instead of crashing the run.
+potential-field, learned, etc.) as long as it only uses `obs`. Returning
+`None` from `decide()` is a legitimate way to say "no opinion" - the
+framework falls back to the nearest reachable frontier in that case. But if
+you return a specific goal, it has to actually be reachable: an
+unreachable, occupied, out-of-bounds, or malformed goal raises
+`InvalidGoalError` and halts the run immediately, rather than being
+silently patched up for you.
 
 ### Provided utility toolkit (`scripts/policy_utils.py`)
 

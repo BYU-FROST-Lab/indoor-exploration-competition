@@ -26,6 +26,14 @@ class Observation:
         self.connected_robot_ids = connected_robot_ids if connected_robot_ids is not None else []
 
 
+class InvalidGoalError(Exception):
+    """Raised when a Policy's decide() returns a non-None goal that is
+    malformed, out of bounds, occupied, or unreachable from the robot's
+    current pose. Returning None is not an error - the framework falls back
+    to the nearest reachable frontier in that case - but a specific goal you
+    hand back is expected to actually be reachable."""
+
+
 class BasePolicy:
     """Subclass this to compete. All three methods are optional to override
     except decide() - everything not overridden falls back to the provided
@@ -41,7 +49,10 @@ class BasePolicy:
         became invalid) - not every timestep.
 
         May return None if no goal can be determined; the framework will
-        fall back to the nearest reachable frontier in that case.
+        fall back to the nearest reachable frontier in that case. If you
+        return a specific goal instead, it must actually be reachable -
+        an unreachable/invalid goal raises InvalidGoalError and halts the
+        run rather than being silently replaced.
         """
         raise NotImplementedError
 

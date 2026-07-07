@@ -1,7 +1,7 @@
 import numpy as np
 import pyastar2d
 import policy_utils as putils
-from base_policy import Observation
+from base_policy import Observation, InvalidGoalError
 
 
 class PlanningEngine:
@@ -93,11 +93,26 @@ class PlanningEngine:
         provided toolkit) if the policy returns nothing usable."""
         obs = self._build_observation(robot, base, comm_manager, collect_opts)
         goal = robot.user_policy.decide(obs, collect_opts)
+        pose_str = tuple(int(x) for x in pose)
         if goal is not None:
-            goal = np.asarray(goal, dtype=int)
-            if occ_grid_pyastar[goal[0], goal[1]] != np.inf and \
-               pyastar2d.astar_path(occ_grid_pyastar, pose, goal, allow_diagonal=False) is not None:
-                return goal
+            try:
+                goal = np.asarray(goal, dtype=int).reshape(2)
+            except (TypeError, ValueError) as e:
+                raise InvalidGoalError(
+                    f"Robot {robot.id} at pose {pose_str}: decide() returned a "
+                    f"malformed goal {goal!r} ({e})"
+                )
+            goal_str = tuple(int(x) for x in goal)
+            in_bounds = (0 <= goal[0] < occ_grid_pyastar.shape[0] and
+                         0 <= goal[1] < occ_grid_pyastar.shape[1])
+            if not in_bounds or occ_grid_pyastar[goal[0], goal[1]] == np.inf or \
+               pyastar2d.astar_path(occ_grid_pyastar, pose, goal, allow_diagonal=False) is None:
+                raise InvalidGoalError(
+                    f"Robot {robot.id} at pose {pose_str}: decide() returned an "
+                    f"unreachable/invalid goal {goal_str}. Return None to defer to "
+                    f"the framework's frontier fallback instead."
+                )
+            return goal
 
         frontiers = putils.get_frontiers(robot.combined_obs_map)
         if not frontiers:
