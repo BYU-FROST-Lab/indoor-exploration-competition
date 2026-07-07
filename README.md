@@ -15,23 +15,9 @@ conda env create -f environment.yml
 conda activate iig
 ```
 
-If `conda env create` gets killed partway through with no error message (just
-`Solving environment: killed`), your conda is using the old "classic"
-solver, which can run out of memory on this dependency set. Fix by switching
-to the faster `libmamba` solver (bundled by default in conda >=23.10; on
-older conda run this once):
-
-```bash
-conda install -n base conda-libmamba-solver
-conda config --set solver libmamba
-```
-
-Then re-run `conda env create -f environment.yml`.
-
-After installing `iig` environment, build from source to install `range_libc`. 
+After installing and activating `iig` environment, build from source to install `range_libc`. 
 
 ```
-conda activate iig
 cd range_libc/pywrapper
 
 # Install build dependencies (if needed)
