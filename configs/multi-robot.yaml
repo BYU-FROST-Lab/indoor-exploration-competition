@@ -1,10 +1,10 @@
 root_path: '/home/seungchan/indoor-exploration-competition'
 
-environment: '50010535_PLAN1'
+environment: 'env3'
 
 start_pose: [15,15]
 
-num_robots: 5
+num_robots: 3
 
 max_steps: 1000
 
@@ -24,7 +24,7 @@ other_intent_threshold: 10
 
 save_viz: True
 viz_comm: True
-viz_gt_map: True
+viz_gt_map: False
 viz_freq: 20
 
 viz_video: False
