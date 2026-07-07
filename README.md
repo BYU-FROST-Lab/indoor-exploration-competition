@@ -8,6 +8,42 @@ policy** — exploration strategy, and optionally relay strategy too.
 Everything else (sensing, motion, communication, the environment) is
 provided and identical for every submission.
 
+## Environment setup
+
+```bash
+conda env create -f environment.yml
+conda activate iig
+```
+
+If `conda env create` gets killed partway through with no error message (just
+`Solving environment: killed`), your conda is using the old "classic"
+solver, which can run out of memory on this dependency set. Fix by switching
+to the faster `libmamba` solver (bundled by default in conda >=23.10; on
+older conda run this once):
+
+```bash
+conda install -n base conda-libmamba-solver
+conda config --set solver libmamba
+```
+
+Then re-run `conda env create -f environment.yml`.
+
+After installing `iig` environment, build from source to install `range_libc`. 
+
+```
+cd range_libc/pywrapper
+
+# Install build dependencies (if needed)
+conda install -y cython
+
+# Build and install
+python setup.py install
+
+# Verify installation
+cd ../..
+python -c "import range_libc; print('range_libc installed successfully')"
+```
+
 ## Quick start
 
 From the `scripts/` directory:
@@ -23,8 +59,6 @@ baseline `NearestFrontierPolicy`. To run your own policy instead:
 ```bash
 python3 main.py --policy_path /path/to/your_policy.py
 ```
-
-Environment setup (conda env, dependencies) — TBD.
 
 ## What's provided (do not modify)
 
