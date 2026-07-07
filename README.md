@@ -24,11 +24,11 @@ cd range_libc/pywrapper
 conda install -y cython
 
 # Build and install
-python setup.py install
+python3 setup.py install
 
 # Verify installation
 cd ../..
-python -c "import range_libc; print('range_libc installed successfully')"
+python3 -c "import range_libc; print('range_libc installed successfully')"
 ```
 
 ## Quick start
