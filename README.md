@@ -33,6 +33,9 @@ python3 -c "import range_libc; print('range_libc installed successfully')"
 
 ## Quick start
 
+Before running, set `root_path` in `configs/multi-robot.yaml` to your local
+clone's path.
+
 From the `scripts/` directory:
 
 ```bash
