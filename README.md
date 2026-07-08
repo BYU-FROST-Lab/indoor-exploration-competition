@@ -75,10 +75,24 @@ You write a `Policy` class with up to three decisions, all made per-robot:
 - **`decide_relay_handoff()`** (optional) — while relaying, whether to hand relay duty off to a nearer connected robot, and to whom.
 
 If you don't override `should_relay()`/`decide_relay_handoff()`, you get the
-provided baseline behavior for free: periodic relaying every `relay_period`
-steps (plus an end-of-run safety trigger, `final_relay`), and handoff to the
-nearest currently-connected robot that's closer to base than you. Override
-either or both to compete on relay strategy as well as exploration.
+provided baseline behavior for free, matching the shipped config
+(`configs/multi-robot.yaml`):
+
+- **Periodic relaying**: every `relay_period` steps (default 200), switch
+  from exploring to walking back to base to report. `'periodic'` is
+  currently the only implemented trigger mode for the default
+  `should_relay()` — override it yourself if you want a different trigger
+  (e.g. information-gain-based).
+- **End-of-run safety net** (`final_relay`, on by default): regardless of
+  the periodic schedule, once too little time is left in the run to walk
+  back to base, force a final return — so a robot never strands unreported
+  data when `max_steps` runs out.
+- **Handoff** (`relay_transfer`, on by default): while relaying, hand off to
+  the nearest currently-connected robot that's closer to base than you,
+  instead of always walking back yourself.
+
+Override `should_relay()` and/or `decide_relay_handoff()` to compete on
+relay strategy as well as exploration.
 
 1. Copy `scripts/policies/nearest_frontier.py` as a starting point, or start from scratch.
 2. Subclass `BasePolicy` (`scripts/base_policy.py`) and implement `decide()`
@@ -148,13 +162,74 @@ Optional helpers you can use inside `decide()`, or ignore entirely:
 
 ## Config file (`configs/multi-robot.yaml`)
 
-Controls the scenario every policy is evaluated on: which environment map,
-number of robots, max timesteps, sensing range, communication model
-parameters (range, attenuation, power threshold), and visualization options.
-`relay_trigger`/`relay_period`/`final_relay`/`relay_transfer` configure the
-*default* relay behavior (used unless your policy overrides `should_relay()`/
-`decide_relay_handoff()`). Most fields can also be overridden from the
-command line — run `python3 main.py --help` for the full list.
+Most fields can also be overridden from the command line — run
+`python3 main.py --help` for the full list. Fields fall into a few groups:
+
+**Fixed — identical for every submission.** These define the sensing/
+communication model itself. Changing them changes the actual challenge, not
+just your strategy, so they should stay at the shipped values for a fair
+comparison:
+- Sensing: `lidar_range`, `num_laser`, `pixel_per_meter`
+- Communication model: `comm_range`, `attenuation_constant`,
+  `transmitted_power`, `path_loss_exponent`, `power_threshold`
+- `max_steps`
+- `pd_size` — padding (in pixels) added around every map internally (see
+  `World.get_kth_occ_validspace_map` in `environment.py`), cropped back out
+  before scoring and display. This isn't just cosmetic — `scoring.py` crops
+  by this exact amount, so it must match the padding `environment.py`
+  actually applies; it's also handed to your policy as `obs.pd_size`. Not
+  something to change.
+- `start_pose` — all robots *and* the base station start at this same
+  single point (see `main.py`, where the same `start_pose` is passed to
+  every `Robot` and to `BaseStation`). The shipped value is only a
+  placeholder for local runs; official scoring will use a start position
+  that isn't disclosed in advance. We'd encourage trying a variety of
+  start poses locally (not just the shipped one) so your policy isn't
+  implicitly tuned to one specific starting layout.
+
+  All range/distance fields above (`lidar_range`, `comm_range`, and the
+  crowding-avoidance thresholds below) are in **meters**, converted
+  internally via `pixel_per_meter` — not pixels. Keep that in mind if your
+  `decide()` reasons about distances directly in `obs.pose`/map coordinates.
+
+**Evaluation axes — varied by us across a known set for official scoring;
+feel free to experiment with other values locally too.** Unlike the fixed
+group above, these aren't pinned to one value — your submission is scored
+across a range of conditions, so it should generalize rather than assume
+one setting:
+- `num_robots` — official scoring covers **2, 3, 4, and 5 robots**
+  (the multi-agent track); tune it locally to whatever you like while
+  developing
+- `environment` — official scoring runs across multiple maps, not just one;
+  `env1`–`env7` are available under `test_maps/` (default `env3`) for you
+  to test against locally
+
+**Strategy parameters — yours to tune.** These only shape the *default*
+behaviors and optional utilities available to your policy; change them
+freely, or ignore them entirely by overriding the corresponding method:
+- `other_traj_threshold`, `other_intent_threshold` — crowding-avoidance
+  distances used by the optional `crowding_avoidance_penalty()` helper;
+  irrelevant if you don't call it
+- `relay_period`, `relay_trigger` — parameters of the *default*
+  `should_relay()` (only `'periodic'` is implemented for `relay_trigger`
+  today; override `should_relay()` yourself for a different trigger)
+- `final_relay` — whether the default `should_relay()`'s end-of-run safety
+  trigger (force a return to base once too little time remains) is active
+- `relay_transfer` — whether `decide_relay_handoff()` is called at all.
+  Since `decide_relay_handoff()` is already optional, you can get the same
+  "never hand off" effect by overriding it to always return `None`, so this
+  is just a convenience switch on the same axis as the other relay fields.
+
+**Visualization-only (no effect on scoring):**
+- `save_viz` — save a plot every `viz_freq` timesteps: each robot's own
+  view (its `combined_obs_map` and trajectory, plus its communication
+  range if `viz_comm` is on), and a base-station panel
+- `viz_gt_map` — if `True`, shows the ground-truth map with the observed
+  area overlaid; if `False`, shows only `combined_obs_map` — i.e. what the
+  robot itself currently knows
+- `viz_comm` — overlay each robot's current communication range
+- `viz_video` — additionally render an aggregated video summary of the
+  whole run (separate from the per-timestep plots above)
 
 ## Scoring
 

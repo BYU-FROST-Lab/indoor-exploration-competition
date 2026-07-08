@@ -73,7 +73,7 @@ if __name__ == '__main__':
     parser.add_argument('--environment', type=str, help='environment id')
     parser.add_argument('--start_pose', nargs='+', help='List of start pose')
     parser.add_argument('--policy_path', type=str, default=None, help='path to a .py file defining a Policy(BasePolicy) class; defaults to the baseline NearestFrontierPolicy')
-    parser.add_argument('--relay_trigger',type=str,default='periodic',help='relay trigger mode: periodic vs information')
+    parser.add_argument('--relay_trigger',type=str,default='periodic',help="relay trigger mode; only 'periodic' is implemented in the default should_relay (override should_relay() for custom triggers)")
     parser.add_argument('--relay_period', type=int, default=200, help='number of timesteps for relaying (periodic)')
     parser.add_argument('--relay_transfer', type=str2bool, default=True, help='relay task transfer to other robots')
     parser.add_argument('--final_relay',type=str2bool,default=True,help='robot goes back to the base station at the end')
