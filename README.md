@@ -211,7 +211,9 @@ one setting:
   developing
 - `environment` — official scoring runs across multiple maps, not just one;
   `env1`–`env7` are available under `test_maps/` (default `env3`) for you
-  to test against locally
+  to test against locally:
+
+  ![Environments env1-env7](assets/environments.png)
 
 **Strategy parameters — yours to tune.** These only shape the *default*
 behaviors and optional utilities available to your policy; change them
