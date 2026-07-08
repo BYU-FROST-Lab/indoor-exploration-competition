@@ -8,6 +8,15 @@ policy** — exploration strategy, and optionally relay strategy too.
 Everything else (sensing, motion, communication, the environment) is
 provided and identical for every submission.
 
+## Tracks
+
+Submissions are scored on two tracks, differing only in `num_robots`:
+
+- **Single-agent** — `num_robots: 1`
+- **Multi-agent** — `num_robots: 2, 3, 4, 5`
+
+You write one `Policy`; it's evaluated across both.
+
 ## Environment setup
 
 ```bash
@@ -197,8 +206,8 @@ feel free to experiment with other values locally too.** Unlike the fixed
 group above, these aren't pinned to one value — your submission is scored
 across a range of conditions, so it should generalize rather than assume
 one setting:
-- `num_robots` — official scoring covers **2, 3, 4, and 5 robots**
-  (the multi-agent track); tune it locally to whatever you like while
+- `num_robots` — official scoring covers both tracks (see Tracks above:
+  1 robot, and 2/3/4/5 robots); tune it locally to whatever you like while
   developing
 - `environment` — official scoring runs across multiple maps, not just one;
   `env1`–`env7` are available under `test_maps/` (default `env3`) for you
@@ -223,7 +232,9 @@ freely, or ignore them entirely by overriding the corresponding method:
 **Visualization-only (no effect on scoring):**
 - `save_viz` — save a plot every `viz_freq` timesteps: each robot's own
   view (its `combined_obs_map` and trajectory, plus its communication
-  range if `viz_comm` is on), and a base-station panel
+  range if `viz_comm` is on), and a base-station panel. Each robot's panel
+  also overlays the other robots' trajectories and intents as last shared
+  over comm (so both can be stale rather than live).
 - `viz_gt_map` — if `True`, shows the ground-truth map with the observed
   area overlaid; if `False`, shows only `combined_obs_map` — i.e. what the
   robot itself currently knows

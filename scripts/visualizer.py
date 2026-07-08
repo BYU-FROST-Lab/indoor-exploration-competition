@@ -112,9 +112,10 @@ def save_multi_robot_viz(world, collect_opts, t):
                         other_color = ROBOT_TRAJ_COLORS[(int(other_id.replace('robot', '')) - 1) % len(ROBOT_TRAJ_COLORS)]
                         ax.plot(pose_list_of_other[:,1]-pd_size, pose_list_of_other[:,0]-pd_size, c=other_color, alpha=0.6, linestyle='--', label='trajectory')
                         ax.scatter(pose_list_of_other[-1,1] - pd_size, pose_list_of_other[-1,0] - pd_size, c=other_color, s=40, zorder=9, marker='o', linewidths=1.0, edgecolors='black')
-                #if getattr(robot, 'intents_of_others') is not None:
-                #    for _, other_intent in robot.intents_of_others.items():
-                #        ax.plot(other_intent[:,1]-pd_size, other_intent[:,0]-pd_size, c='black', alpha=0.6, linestyle='-.')
+                if getattr(robot, 'intents_of_others') is not None:
+                    for other_id, other_intent in robot.intents_of_others.items():
+                        other_color = ROBOT_TRAJ_COLORS[(int(other_id.replace('robot', '')) - 1) % len(ROBOT_TRAJ_COLORS)]
+                        ax.plot(other_intent[:,1]-pd_size, other_intent[:,0]-pd_size, c=other_color, alpha=0.35, linestyle=':', linewidth=1.5, label='intent')
 
             ax.set_title(f"Robot {robot.id}", fontsize=11)
 
