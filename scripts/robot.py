@@ -4,7 +4,6 @@ import sys
 sys.path.append('../')
 from scripts import utils
 import numpy as np
-from pdb import set_trace as bp
 import time
 #from lama_pred_utils import convert_obsimg_to_model_input
 

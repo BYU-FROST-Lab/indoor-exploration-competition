@@ -303,7 +303,6 @@ def get_free_points_range_libc(occ_grid_numpy, robot_pos, laser_range=10, num_la
     # single_ranges = np.zeros(2, dtype=np.float32)
     # bl.calc_range_many(single_query, single_ranges)
     # print("single_ranges", single_ranges)
-    # import pdb; pdb.set_trace()
     bl.calc_range_many(queries, ranges)
     # print("Get free points: Calc range time", time.time()-calc_range_time)
     
@@ -565,12 +564,10 @@ class AStarPlanner:
         start_time = time.time()
         self.calc_obstacle_map(ox, oy)
         # print("Time to calc obstacle map: ", np.round(time.time() - start_time, 3), "s")
-        # import pdb; pdb.set_trace()
         self.occ_grid = occ_grid
-        floor_val = 10 
+        floor_val = 10
         # TODO: don't put unknown as occupied
         self.distance_transform = (np.clip(scipy.ndimage.distance_transform_cdt(self.occ_grid == 0) * -1 , -floor_val, 0) + floor_val) * 0
-        # import pdb; pdb.set_trace()
         # plt.subplot(1,2,1)
         # plt.imshow(self.occ_grid)
         # plt.subplot(1,2,2)
@@ -842,7 +839,9 @@ def get_vis_mask(occupancy_grid, robot_pos, laser_range=50, num_laser=100, rayca
 
     # If you need the boundary points of the expanded shape
     if type(expanded_shape) == MultiPolygon:
-        import pdb; pdb.set_trace()
+        # Buffering a disjoint hit-point set can split it into multiple
+        # polygons; keep the largest one so .exterior below stays valid.
+        expanded_shape = max(expanded_shape.geoms, key=lambda p: p.area)
     expanded_boundary_points = np.array(expanded_shape.exterior.coords).astype(int)
     
     if skip_raycast:
@@ -940,7 +939,6 @@ def make_kth_mask_onemap(pgm_path, map_configs, output_path_dict, map_i):
     # TODO: check if cval=1 is reasonable
 
     assert np.min(kth_occ_map) == 1, "kth_occ_map should be 1 (occupied) or 2 (free). There is unknown..."
-    # import pdb; pdb.set_trace()
     # plt.subplot(1,2,1)
     # plt.imshow(kth_orig_occ_map)
     # plt.subplot(1,2,2)
@@ -1080,7 +1078,6 @@ def make_masklist_with_rand_traj_in_map(occupancy_grid, map_configs, show_viz=Fa
 
         # gy = 1050
         # gx = 1100
-        # import pdb; pdb.set_trace()
         # Get A* trajectory
         print('Getting A* trajectory')
         plan_x, plan_y = a_star.planning(sx, sy, gx, gy)
@@ -1135,12 +1132,10 @@ def make_masklist_with_rand_traj_in_map(occupancy_grid, map_configs, show_viz=Fa
             # plt.scatter(crop_pic.shape[0]/2, crop_pic.shape[1]/2, c='r')
             # plt.savefig('hi2.png')
             # plt.close()
-            # import pdb; pdb.set_trace()
             mask_list.append(np.copy(vis_mask_tot))
             local_gt_list.append(np.copy(crop_pic))
             local_mask_list.append(np.copy(local_mask))
             pose_list.append(np.copy(query_point))
-            # import pdb; pdb.set_trace()
 
             # # # Visualization
             if show_viz:
