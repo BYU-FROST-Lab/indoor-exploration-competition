@@ -15,7 +15,6 @@ class Robot:
     def __init__(self, id, start_pose, policy, user_policy, collect_opts, start_delay=0):
         self.id = id
         self.pose = np.array(start_pose)
-        self.obs_map = None
         self.policy = policy
         self.user_policy = user_policy
         self.collect_opts = collect_opts
@@ -38,7 +37,6 @@ class Robot:
 
     def initialize_map(self, world):
         self.gt_map = world.occ_map
-        self.obs_map = np.ones(self.gt_map.shape) * 0.5
         self.combined_obs_map = np.ones(self.gt_map.shape)* 0.5
         self.gt_map_pyomap = makePyOMap(self.gt_map)
         self.unreported_mask = np.zeros(self.gt_map.shape, dtype=bool) #False: already reported or unknown
@@ -61,13 +59,7 @@ class Robot:
         self.unreported_mask[actual_hit_points[new_occ_mask, 0], actual_hit_points[new_occ_mask, 1]] = True
         ####until here
 
-        occ_mask = (self.combined_obs_map == 1)
-        self.obs_map[vis_ind[:,0], vis_ind[:,1]] = 0
-        self.obs_map[occ_mask] = 1
-        self.obs_map[actual_hit_points[:,0], actual_hit_points[:,1]] = 1
-
         self.combined_obs_map[vis_ind[:,0], vis_ind[:,1]] = 0
-        self.combined_obs_map[occ_mask] = 1
         self.combined_obs_map[actual_hit_points[:,0], actual_hit_points[:,1]] = 1
 
     

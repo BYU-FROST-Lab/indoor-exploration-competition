@@ -46,9 +46,9 @@ class CommunicationManager:
                     r1.delegated_mask &= r1.unreported_mask
                     r2.delegated_mask &= r2.unreported_mask
                     #relay robots carry everything themselves — clear delegated
-                    if r1.behavior_mode == 'relay' or r1.behavior_mode == 'predpath_relay':
+                    if r1.behavior_mode == 'relay':
                         r1.delegated_mask[:] = False
-                    if r2.behavior_mode == 'relay' or r2.behavior_mode == 'predpath_relay':
+                    if r2.behavior_mode == 'relay':
                         r2.delegated_mask[:] = False
 
                     #share pose lists
@@ -94,11 +94,6 @@ class CommunicationManager:
                 #if the behavior mode is relay, switch to explore
                 if robot.behavior_mode == 'relay':
                     robot.switch_behavior_mode('relay', 'explore')
-                if robot.behavior_mode == 'predpath_relay':
-                    robot.pred_front_to_base = False
-                    robot.locked_predicted_frontier_center = None
-                    robot.best_path_pose_front_base = None
-                    robot.switch_behavior_mode('predpath_relay', 'explore')
 
     def communication_function(self, pose1, pose2, occ_map, collect_opts):
         distance = np.linalg.norm(pose1 - pose2)

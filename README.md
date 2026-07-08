@@ -118,7 +118,7 @@ while relaying (only if `relay_transfer` is enabled in the config).
 Only what your robot has legitimately sensed or received over
 communication — never ground truth:
 
-- `obs.combined_obs_map` — your robot's own map so far (unknown / free / occupied)
+- `obs.combined_obs_map` — your robot's map so far (unknown / free / occupied). Whenever two robots (or a robot and the base station) are in comm range, their maps are automatically fused, so this can include cells a peer observed, not just what your own sensor has seen. Fusion is provided/automatic — identical for every submission — not something `decide()` controls.
 - `obs.pose` — your robot's current position
 - `obs.unreported_mask`, `obs.delegated_mask` — bookkeeping on what's been observed but not yet reported to base
 - `obs.pose_lists_of_others`, `obs.intents_of_others` — other robots' trajectories/intents, as last shared over comm (may be stale if out of range)

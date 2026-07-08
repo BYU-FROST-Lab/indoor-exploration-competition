@@ -102,14 +102,6 @@ def save_multi_robot_viz(world, collect_opts, t):
                 frontiers = np.array(robot.frontier_region_centers)
                 #ax.scatter(frontiers[:,1]-pd_size, frontiers[:,0]-pd_size, marker='x', c='g', s=7, label='frontier')
 
-            if getattr(robot, 'best_path_pose_front_base', None) is not None:
-                path_pose_front_base = robot.best_path_pose_front_base
-                #ax.plot(path_pose_front_base[:,1]-pd_size, path_pose_front_base[:,0]-pd_size, c='green',alpha=1.0,linestyle='--')
-            
-            if getattr(robot, 'locked_predicted_frontier_center', None) is not None:
-                pass
-                #ax.scatter(robot.locked_predicted_frontier_center[1]-pd_size, robot.locked_predicted_frontier_center[0]-pd_size, c='blue', marker='^',s=20)
-            
 
 
             #visualize other robots' trajectories and intents
