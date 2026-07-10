@@ -10,12 +10,35 @@ provided and identical for every submission.
 
 ## Tracks
 
-Submissions are scored on two tracks, differing only in `num_robots`:
+Submissions are scored on two tracks:
 
 - **Single-agent** — `num_robots: 1`
 - **Multi-agent** — `num_robots: 2, 3, 4, 5`
 
-You write one `Policy`; it's evaluated across both.
+You write one `Policy`; it's evaluated across both. Official scoring also
+runs across environments grouped by size, each with its own timestep
+budget (`max_steps`) — single-agent gets a larger budget than multi-agent
+on the same environment, since one robot alone has more ground to cover in
+the same time:
+
+| Size | Released examples | Single-agent `max_steps` | Multi-agent `max_steps` |
+|---|---|---|---|
+| Small | `env1`, `env2` | 1000 | 500 |
+| Medium | `env3`, `env4`, `env5` | 1500 | 1000 |
+| Large | `env6`, `env7` | 2000 | 1500 |
+
+(See Stages below — Stage 2's held-out maps aren't `env1`–`env7`
+themselves, but follow this same size-based `max_steps` scheme.)
+
+## Stages
+
+- **Stage 1 (preliminary, optional)** — submit your policy to us and we'll
+  run it on the released test environments (`env1`–`env7`), score it, and
+  post results to a leaderboard along with feedback.
+- **Stage 2 (final)** — the actual scored round. You don't need to have
+  submitted to Stage 1 to enter Stage 2, but Stage 2 submissions get no
+  feedback. Scoring runs on a different, held-out set of environments (not
+  `env1`–`env7`), sized and budgeted per the table above.
 
 ## Environment setup
 
@@ -181,7 +204,6 @@ comparison:
 - Sensing: `lidar_range`, `num_laser`, `pixel_per_meter`
 - Communication model: `comm_range`, `attenuation_constant`,
   `transmitted_power`, `path_loss_exponent`, `power_threshold`
-- `max_steps`
 - `pd_size` — padding (in pixels) added around every map internally (see
   `World.get_kth_occ_validspace_map` in `environment.py`), cropped back out
   before scoring and display. This isn't just cosmetic — `scoring.py` crops
@@ -209,11 +231,15 @@ one setting:
 - `num_robots` — official scoring covers both tracks (see Tracks above:
   1 robot, and 2/3/4/5 robots); tune it locally to whatever you like while
   developing
-- `environment` — official scoring runs across multiple maps, not just one;
-  `env1`–`env7` are available under `test_maps/` (default `env3`) for you
-  to test against locally:
+- `environment` — official scoring runs across multiple maps, not just one
+  (Stage 1: `env1`–`env7`; Stage 2: a different held-out set — see Stages
+  below). `env1`–`env7` are available under `test_maps/` (default `env3`)
+  for you to test against locally:
 
   ![Environments env1-env7](assets/environments.png)
+- `max_steps` — official scoring uses the track/environment-size-dependent
+  budgets in the Tracks table above, not the shipped default; tune it
+  locally to whatever you like while developing
 
 **Strategy parameters — yours to tune.** These only shape the *default*
 behaviors and optional utilities available to your policy; change them
@@ -250,3 +276,12 @@ At the end of a run, `main.py` prints the final **base-station coverage**:
 the fraction of the true map the base station has learned about by
 `max_steps`. This rewards actually getting information home, not just
 observing it — so both exploration and relay strategy matter for score.
+
+## Map prediction (coming soon)
+
+We'll be releasing training data of floorplans that can be used for map
+prediction — e.g. inferring the likely layout of still-unknown areas from
+what's been observed so far, to inform exploration. Not available yet;
+we'll announce here once it's released. In the meantime, for a sample
+prediction approach, see [MapEx](https://github.com/castacks/MapEx)
+(`github.com/castacks/MapEx`).

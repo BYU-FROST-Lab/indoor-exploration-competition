@@ -7,7 +7,6 @@ root_path: '/home/seungchan/indoor-exploration-competition'
 # official scoring uses an undisclosed start position, so try varying
 # this locally rather than tuning against just [15,15].
 
-max_steps: 1000
 start_pose: [15,15]
 
 lidar_range: 15
@@ -28,6 +27,7 @@ pd_size: 200
 
 num_robots: 3       # official scoring covers 2, 3, 4, and 5 robots
 environment: 'env3' # official scoring runs across multiple maps (env1-env7 available under test_maps/)
+max_steps: 1000     # official scoring uses track/env-size-dependent budgets - see the Tracks table in README.md
 
 # ---- Strategy parameters: yours to tune ----
 # These only shape the *default* behaviors and optional utilities available
