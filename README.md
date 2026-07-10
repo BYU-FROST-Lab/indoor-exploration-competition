@@ -18,8 +18,7 @@ Submissions are scored on two tracks:
 You write one `Policy`; it's evaluated across both. Official scoring also
 runs across environments grouped by size, each with its own timestep
 budget (`max_steps`) — single-agent gets a larger budget than multi-agent
-on the same environment, since one robot alone has more ground to cover in
-the same time:
+on the same environment:
 
 | Size | Released examples | Single-agent `max_steps` | Multi-agent `max_steps` |
 |---|---|---|---|
