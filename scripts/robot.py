@@ -58,7 +58,12 @@ class Robot:
         self.unreported_mask[actual_hit_points[new_occ_mask, 0], actual_hit_points[new_occ_mask, 1]] = True
         ####until here
 
-        self.combined_obs_map[vis_ind[:,0], vis_ind[:,1]] = 0
+        # Once a cell is confirmed occupied, a later visibility-only observation
+        # (no hit there this call) must not downgrade it back to free - visibility
+        # boundary computation can be pose-sensitive enough near walls to otherwise
+        # flip a cell free/occupied every step and stall the robot in a 2-pose loop.
+        free_mask = self.combined_obs_map[vis_ind[:,0], vis_ind[:,1]] != 1
+        self.combined_obs_map[vis_ind[free_mask,0], vis_ind[free_mask,1]] = 0
         self.combined_obs_map[actual_hit_points[:,0], actual_hit_points[:,1]] = 1
 
     
