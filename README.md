@@ -1,3 +1,22 @@
+# Competition Updates & Announcements
+
+> **Notice:** Please check this README page regularly for the most up-to-date competition information.
+
+## Competition Prizes
+
+* **1st Place:** Certificate + $1,500 USD
+* **2nd Place:** Certificate + $500 USD
+* **3rd Place:** Certificate
+
+### Weekly Office Hours
+
+Have questions or need help troubleshooting? Join us for weekly office hours throughout the submission period:
+
+* **When:** Every Friday, 10:00 AM – 11:00 AM ET 
+* **Zoom:** [[Join Office Hours](https://cmu.zoom.us/j/6816076648?pwd=bNtsItL4mO8MJi4sbvXoZbOvvRtRjx.1)]
+
+If you have any questions regarding the competition, please email `seungch2@andrew.cmu.edu` and cc `bradymoon@byu.edu`.
+
 # Indoor Exploration Competition
 
 Multi-robot (and single-robot) indoor exploration and relaying under
