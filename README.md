@@ -2,7 +2,56 @@
 
 > **Notice:** Please check this README page regularly for the most up-to-date competition information.
 
-## Competition Prizes
+## August 9
+
+1. **Submission process (Stage 1):** if you're entering the preliminary
+   round, submit via this [Google
+   Form](https://docs.google.com/forms/d/e/1FAIpQLSes1TAmSbyK-_Mf67V3xbOMDzQ8rFsn03Co6WadGIAfVyfGTA/viewform?usp=publish-editor)
+   (one submitter per team) by **August 15** — extended two days from the
+   original deadline so you can attend the August 14 Friday office hour
+   first. It will ask for:
+   - Team name
+   - Submitter's name and email (used for all correspondence)
+   - Names of the other team members
+   - A zip file (max **1GB**) containing `policy.py`, any other files it
+     needs to run (additional scripts, model checkpoints, etc.), and a
+     README describing your submission
+
+   **Note:** this is a different form from the one on the workshop website
+   used for registration — please use the link above for your submission.
+   We'll update the website to point to this same link shortly.
+
+   If you run into a problem submitting via the form (broken link, file
+   size limit, etc.), send the same information by email to
+   `seungch2@andrew.cmu.edu`, cc `bradymoon@byu.edu`.
+2. **Timing rule:** we measured the baseline average wall-clock time per
+   timestep on our own evaluation machine — an NVIDIA GeForce RTX 4090
+   (24GB) paired with an Intel Core i9-13900K (24 cores / 32 threads) —
+   running the provided baseline policy:
+
+   | Environment | `num_robots` | Total time/step | Per-robot time/step |
+   |---|---|---|---|
+   | env1 (small) | 1 | 0.025s | 0.025s |
+   | env3 (medium) | 1 | 0.032s | 0.032s |
+   | env3 (medium) | 3 | 0.095s | 0.032s |
+   | env3 (medium) | 5 | 0.170s | 0.034s |
+   | env7 (large) | 5 | 0.220s | 0.044s |
+
+   Per-robot cost stays fairly stable (~0.025–0.044s) regardless of
+   environment size or team size, so the budget is set **per robot per
+   timestep** rather than as a single flat number: your submission's time
+   budget for a run is `num_robots × 0.5` seconds per timestep. That's
+   roughly **10x** our slowest observed per-robot baseline (env7's
+   0.044s/robot) — a deliberately generous buffer meant to comfortably
+   fit real model inference, not to penalize legitimate learned policies.
+   Runs whose average exceeds this budget will be stopped early at that
+   point — whatever coverage you've achieved so far still counts, so a
+   slower policy simply gets less time to explore rather than being
+   penalized through a separate formula.
+
+## August 8
+
+### Competition Prizes
 
 * **1st Place:** Certificate + $1,500 USD
 * **2nd Place:** Certificate + $500 USD
