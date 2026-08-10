@@ -53,8 +53,16 @@
 
 ### Competition Prizes
 
-* **1st Place:** Certificate + $1,500 USD
-* **2nd Place:** Certificate + $500 USD
+Prizes are awarded separately per track (you can enter either or both):
+
+**Single-agent**
+* **1st Place:** Certificate + $500 USD
+* **2nd Place:** Certificate + $150 USD
+* **3rd Place:** Certificate
+
+**Multi-agent**
+* **1st Place:** Certificate + $1,000 USD
+* **2nd Place:** Certificate + $350 USD
 * **3rd Place:** Certificate
 
 ### Weekly Office Hours
