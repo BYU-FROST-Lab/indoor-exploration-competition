@@ -7,9 +7,8 @@
 1. **Submission process (Stage 1):** if you're entering the preliminary
    round, submit via this [Google
    Form](https://docs.google.com/forms/d/e/1FAIpQLSes1TAmSbyK-_Mf67V3xbOMDzQ8rFsn03Co6WadGIAfVyfGTA/viewform?usp=publish-editor)
-   (one submitter per team) by **August 15** — extended two days from the
-   original deadline so you can attend the August 14 Friday office hour
-   first. It will ask for:
+   (one submitter per team) by **August 22** — extended a week from the
+   original deadline so you can attend the two Friday office hours. It will ask for:
    - Team name
    - Submitter's name and email (used for all correspondence)
    - Names of the other team members
@@ -24,7 +23,10 @@
    If you run into a problem submitting via the form (broken link, file
    size limit, etc.), send the same information by email to
    `seungch2@andrew.cmu.edu`, cc `bradymoon@byu.edu`.
-2. **Timing rule:** we measured the baseline average wall-clock time per
+
+2. **(Stage 2) Final Submission** deadline will be **September 5**.
+
+3. **Timing rule:** we measured the baseline average wall-clock time per
    timestep on our own evaluation machine — an NVIDIA GeForce RTX 4090
    (24GB) paired with an Intel Core i9-13900K (24 cores / 32 threads) —
    running the provided baseline policy:
