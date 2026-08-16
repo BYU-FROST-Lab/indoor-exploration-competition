@@ -2,6 +2,23 @@
 
 > **Notice:** Please check this README page regularly for the most up-to-date competition information.
 
+## August 16
+
+We're releasing ground-truth floorplan data that you're free to use
+however you'd like for this multi-robot (and single-robot) exploration and
+relaying problem — for example, but not limited to, training a map
+prediction model, or training a learned navigation policy over a training
+set of indoor floorplans. All of the following are optional:
+
+- **Training data:** ground-truth floorplan / observed-area pairs (the
+  observed area collected via the nearest-frontier method) — useful if
+  you'd like to train your own map-prediction model:
+  [link](https://drive.google.com/file/d/1S_8z-T3B9lISqr5tPcE7klTP0tRHifPR/view) 
+- **Pretrained weights:** if you'd rather not train your own, you're
+  welcome to use [MapEx](https://github.com/castacks/MapEx)'s pretrained
+  LaMa weights directly:
+  [link](https://drive.google.com/drive/u/0/folders/1u9WZ9ftwaMbP-RVySuNSVEdUDV_x4Dw6)
+
 ## August 9
 
 1. **Submission process (Stage 1):** if you're entering the preliminary
