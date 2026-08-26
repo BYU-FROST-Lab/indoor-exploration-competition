@@ -2,6 +2,37 @@
 
 > **Notice:** Please check this README page regularly for the most up-to-date competition information.
 
+## August 26
+
+Stage 1 (preliminary) results are in! As a reminder, Stage 1 is
+feedback-oriented and not the scored round — Stage 2 (see Stages below) is
+what counts toward final prizes. Individual feedback will be sent to each participant's email soon.
+
+Scores are average base-station coverage across all 7 released maps
+(env1–env7), each run from 4 different starting positions; multi-agent
+scores are additionally averaged across team sizes 2–5. A breakdown by map
+size (small/medium/large) is available [here](STAGE1_RESULTS.md).
+
+### Single-agent track
+
+| Rank | Team | Score |
+|---|---|---|
+| 1 | OpenSpaceLab | 61.04% |
+| 2 | HeRoLab | 60.12% |
+| 3 | TAMU-UADY-Robotics | 55.89% |
+| 4 | DZT328 | 32.45% |
+| 5 | HORIZON | 25.69% |
+
+### Multi-agent track
+
+| Rank | Team | Score |
+|---|---|---|
+| 1 | HeRoLab | 63.97% |
+| 2 | TAMU-UADY-Robotics | 59.11% |
+| 3 | FAIR-KAIST | 55.22% |
+| 4 | DZT328 | 49.15% |
+| 5 | HORIZON | 47.24% |
+
 ## August 16
 
 We're releasing ground-truth floorplan data that you're free to use
