@@ -2,6 +2,29 @@
 
 > **Notice:** Please check this README page regularly for the most up-to-date competition information.
 
+## August 30
+
+**Submission process (Stage 2, final round):** submit your final entry via
+this [Google
+Form](https://docs.google.com/forms/d/e/1FAIpQLSchbVcmcmURQoiDizhezx1_NO2fYNtW0sqMpkQ5Tgspc_zZww/viewform?usp=header)
+by **September 5, Anywhere on Earth (AoE)**. It will ask for:
+- Team name
+- Submitter's name and email (used for all correspondence)
+- Names of the other team members
+- Agreement to our [Submission Terms](SUBMISSION_TERMS.md)
+- A zip file (max **1GB**) containing `policy.py`, any other files it
+  needs to run (additional scripts, model checkpoints, etc.), and a
+  README describing your method
+
+**Note:** Stage 2 scoring uses a different, held-out set of floorplans
+from the `env1`–`env7` maps released for Stage 1 (see Stages below).
+
+**Note:** Even if you submitted to Stage 1, you should resubmit an updated policy for Stage 2. Stage 2 is the real competition round. If you don't resubmit, your Stage 1 submission will be scored by default.
+
+If you run into a problem submitting via the form (broken link, file size
+limit, etc.), send the same information by email to
+`seungch2@andrew.cmu.edu`, cc `bradymoon@byu.edu`.
+
 ## August 26
 
 Stage 1 (preliminary) results are in! As a reminder, Stage 1 is
